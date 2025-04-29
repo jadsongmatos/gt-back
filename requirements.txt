@@ -1,3 +1,7 @@
 flask
 waitress
 tox==3.*
+celery[sqlalchemy]
+sqlalchemy
+msgpack
+flask-cors

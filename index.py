@@ -1,27 +1,36 @@
-#!/usr/bin/env python
 import os
 import logging
 from flask import Flask, request, jsonify
 from waitress import serve
 from function import handler
 
-# 1. Configurar LOG_LEVEL
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from waitress import serve
+from function import handler
+
+# Configurar LOG_LEVEL
 log_level_str = os.getenv("LOG_LEVEL", "INFO").upper()
 numeric_level = getattr(logging, log_level_str, logging.INFO)
 
-# 2. Setup do logger
+# Setup do logger
 logging.basicConfig(level=numeric_level,
                     format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
-# 3. Ajustar loggers específicos
+# Ajustar loggers específicos
 logging.getLogger("waitress").setLevel(numeric_level)
 logging.getLogger("werkzeug").setLevel(numeric_level)
 
-# 4. App Flask
+# App Flask
 app = Flask(__name__)
+
+# permitir CORS
+CORS(app)
+#CORS(app, resources={r"/*": {"origins": ["http://localhost:5000", "http://127.0.0.1:5000"]}})
+
 app.logger.setLevel(numeric_level)
 
-# 5. Classes Event e Context
+# Classes Event e Context
 class Event:
     def __init__(self):
         self.body = request.get_data()
@@ -34,7 +43,7 @@ class Context:
     def __init__(self):
         self.hostname = os.getenv('HOSTNAME', 'localhost')
 
-# 6. Helpers de formatação
+# Helpers de formatação
 def format_status_code(res):
     if 'statusCode' in res:
         return res['statusCode']
@@ -71,7 +80,7 @@ def format_response(res):
         return (body, status_code, headers)
     return res
 
-# 7. Rotas
+# Rotas
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 @app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def call_handler(path):
@@ -80,6 +89,6 @@ def call_handler(path):
     response_data = handler.handle(event, context)
     return format_response(response_data)
 
-# 8. Main
+# Main
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=5000)

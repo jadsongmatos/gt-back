@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  function:
+    build: .
+    environment:
+      - fprocess=python index.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./celery_broker.sqlite3:/home/app/celery_broker.sqlite3
+      - ./celery_results.sqlite3:/home/app/celery_results.sqlite3
+
+  worker:
+    build: .
+    command: celery -A celery_app.celery worker --loglevel=info --concurrency=1
+    volumes:
+      - ./celery_broker.sqlite3:/home/app/celery_broker.sqlite3
+      - ./celery_results.sqlite3:/home/app/celery_results.sqlite3

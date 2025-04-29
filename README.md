@@ -69,6 +69,10 @@ python3-http-debian/
    echo -n "mundo" | faas-cli invoke my-func
    # Retorno: Olá, OpenFaaS!
    ```
+8. **Iniciar Worker Celery**
+   ```bash
+   celery -A celery_app.celery worker --loglevel=info --concurrency=1
+   ```
 
 ---
 
