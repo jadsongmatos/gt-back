@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message ImageData {
+  bytes content = 1;
+  string format = 2; // e.g., "JPG"
+}

@@ -119,6 +119,33 @@ build_args:
 
 ---
 
+### 🧵 Integração com Celery
+
+Para iniciar o worker do Celery (com `celery_app.py` presente):
+
+```bash
+celery -A celery_app.celery worker --loglevel=info --concurrency=1
+```
+
+---
+
+### 🧬 gRPC + Protobuf
+
+Gerar código Python a partir do `.proto`:
+
+```bash
+python -m grpc_tools.protoc -Ifunction --python_out=function function/image_data.proto
+```
+
+---
+
+### 🧠 Observações e Dicas
+
+- **Letras não suportadas**: `j`, `h`, `ç`, `y`, `z`, `x` (exemplo: sistema de dicionário de sinais).
+- **Referência externa**: [SignBank UFSC (Libras)](https://signbank.libras.ufsc.br/pt)
+
+---
+
 ### ⚙️ Healthcheck
 
 Por padrão:

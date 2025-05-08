@@ -5,3 +5,9 @@ celery[sqlalchemy]
 sqlalchemy
 msgpack
 flask-cors
+pillow
+ultralytics
+torch
+torchvision
+torchaudio
+--extra-index-url https://download.pytorch.org/whl/cpu

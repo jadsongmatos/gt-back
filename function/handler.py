@@ -33,8 +33,8 @@ def handle(event, context):
             "body": {
                 "task_id": task_id,
                 "status": result.status,
-                "result": result.result if result.ready() else None,
-                "traceback": result.traceback if result.failed() else None
+                "result": str(result.result) if result.ready() else None,
+                "traceback": str(result.traceback) if result.failed() else None
             }
         }
 
